@@ -82,8 +82,8 @@ public class PandoidStationSelect extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.station_select_menu, menu);
+		//MenuInflater inflater = getMenuInflater();
+		//inflater.inflate(R.menu.station_select_menu, menu);
 		return true;
 	}
 

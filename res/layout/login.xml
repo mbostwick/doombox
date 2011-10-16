@@ -55,12 +55,19 @@
              android:layout_centerHorizontal="true"
              android:layout_below="@+id/login_txtPassword"
              android:singleLine="true" android:id="@+id/login_password"/>
-   
-        <Button 
+
+   <CheckBox android:layout_height="wrap_content" android:text="Save Password" 
+        		android:id="@+id/savePassCheck" android:layout_width="wrap_content" 
+        		android:layout_below="@+id/login_password" 
+        		android:layout_centerHorizontal="true"
+        		></CheckBox>		
+   <Button 
         		android:text="Login" android:layout_width="110px" 
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/login_password"
+                android:layout_below="@+id/savePassCheck"
                 android:id="@+id/login_button" android:paddingTop="14dip"/>
+                
+
                
 </RelativeLayout>

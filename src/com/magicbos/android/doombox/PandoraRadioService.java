@@ -158,12 +158,12 @@ public class PandoraRadioService extends Service {
 	}
 	
 	public void setNotification() {
-		Notification notification = new Notification(R.drawable.icon, "Pandoroid Radio", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.icon, "Pandora Radio", System.currentTimeMillis());
 		Intent notificationIntent = new Intent(this, PandoidPlayer.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_SONG_PLAYING, notificationIntent, 0);
 		
 		notification.flags |= Notification.FLAG_ONGOING_EVENT | Notification.FLAG_FOREGROUND_SERVICE;
-		notification.setLatestEventInfo(getApplicationContext(), "Pandoroid Radio", "Playing "+getCurrentSong().getTitle(), contentIntent);
+		notification.setLatestEventInfo(getApplicationContext(), "Pandora Radio", "Playing "+getCurrentSong().getTitle(), contentIntent);
 		//notificationManager.notify(NOTIFICATION_SONG_PLAYING, notification);
 		startForeground(NOTIFICATION_SONG_PLAYING, notification);
 	}

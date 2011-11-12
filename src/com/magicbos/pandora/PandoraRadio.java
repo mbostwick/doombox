@@ -39,8 +39,8 @@ import org.xmlrpc.android.XMLRPCException;
 
 public class PandoraRadio {
 
-	public static final String PROTOCOL_VERSION = "32";
-	private static final String RPC_URL = "http://www.pandora.com/radio/xmlrpc/v"+PROTOCOL_VERSION+"?";
+	public static final String PROTOCOL_VERSION = "33";
+	private static final String RPC_URL = "https://www.pandora.com/radio/xmlrpc/v"+PROTOCOL_VERSION+"?";
 	private static final String USER_AGENT = "com.magicbos.doombox";
 
 	public static final long PLAYLIST_VALIDITY_TIME = 3600 * 3;
@@ -53,6 +53,7 @@ public class PandoraRadio {
 	private Blowfish blowfish_decode;
 	private String authToken;
 	private String rid;
+	private String lid;
 	private String webAuthToken;
 	private ArrayList<Station> stations;
 
@@ -114,7 +115,7 @@ public class PandoraRadio {
 		int i16 = 0;
 		for(int i=0; i<length; i+=16) {
 			i16 = (i + 16 > length) ? (length - 1) : (i + 16);
-			result.append( blowfish_decode.decrypt( pad( fromHex( s.substring(i, i16)), 8).toCharArray()));
+			result.append( blowfish_decode.decrypt(pad( fromHex( s.substring(i, i16)), 8).toCharArray()));
 		}
 		return result.toString().trim();
 	}
@@ -188,6 +189,9 @@ public class PandoraRadio {
 		if(rid != null) {
 			urlArgStrings.add("rid="+rid);
 		}
+		if(lid != null) {
+			urlArgStrings.add("lid="+lid);
+		}
 		method = method.substring(method.lastIndexOf('.')+1);
 		urlArgStrings.add("method="+method);
 		Iterator<Object> urlArgsIter = urlArgs.iterator();
@@ -235,6 +239,7 @@ public class PandoraRadio {
 
 			webAuthToken = (String) userInfo.get("webAuthToken");
 			authToken = (String) userInfo.get("authToken");
+			lid = (String )userInfo.get("listenerId");
 		}
 	}
 	
@@ -278,14 +283,18 @@ public class PandoraRadio {
 
 	public void rate(Station station, Song song, boolean rating) {
 		ArrayList<Object> args = new ArrayList<Object>(7);
-		args.add(String.valueOf(station.getId())); args.add(song.getId()); args.add(song.getUserSeed());
-		args.add(""/*testStrategy*/); args.add(rating); args.add(false); args.add(song.getSongType());
+		args.add(String.valueOf(station.getId())); 
+		args.add(song.getTrackToken()); 
+		args.add(""/*testStrategy*/); 
+		args.add(rating); 
+		args.add(false); 
 		
 		xmlrpcCall("station.addFeedback", args);
 	}
 	public void bookmarkSong(Station station, Song song) {
 		ArrayList<Object> args = new ArrayList<Object>(2);
-		args.add(String.valueOf(station.getId())); args.add(song.getId());
+		args.add(String.valueOf(station.getId())); 
+		args.add(song.getTrackToken());
 		
 		xmlrpcCall("station.createBookmark", args);
 	}
@@ -299,8 +308,8 @@ public class PandoraRadio {
 	
 	public void tired(Station station, Song song) {
 		ArrayList<Object> args = new ArrayList<Object>(3);
-		args.add(song.getId()); args.add(song.getUserSeed()); args.add(String.valueOf(station.getId()));
-		
+		args.add(song.getTrackToken()); 
+		args.add(String.valueOf(station.getId()));
 		xmlrpcCall("listener.addTiredSong", args);
 	}
 	

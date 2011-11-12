@@ -37,7 +37,7 @@ private static final int ARTIST_TITLE = 2; //look for album art using the artist
 
 private static final String LOG_TAG = "AlbumArtDownloader";
 
-private String apiKey = "3f6527e63fa7ab4771a687ce39377cf8";
+private String apiKey = "6a308541ef5702571c2dcab501c696e5";
 private String artist, title, album;
 private String url;
 

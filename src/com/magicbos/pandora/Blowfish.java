@@ -59,9 +59,11 @@ public class Blowfish {
 		}
 		else if(direction == Blowfish.DECRYPT) {
 			for(int i=17; i>1; i--) {
-				xl = xl ^ this.p_boxes[i];
+				xl = xl ^ this.p_boxes[i];				
 				xr = this.roundFunc(xl) ^ xr;
-				temp_x = xl; xl = xr; xr = temp_x;
+				temp_x = xl; 
+				xl = xr; 
+				xr = temp_x;
 			}
 			temp_x = xl; xl = xr; xr = temp_x;
 			xr = xr ^ this.p_boxes[1];

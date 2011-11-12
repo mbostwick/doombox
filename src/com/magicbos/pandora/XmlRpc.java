@@ -21,16 +21,32 @@ import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
+import java.security.KeyStore;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlrpc.android.Tag;
@@ -46,14 +62,14 @@ public class XmlRpc extends org.xmlrpc.android.XMLRPCClient {
 	/* This method is extracted from the parent class with slight modifications
 	 * for sending a request with a predetermined body content. */
 	public Object callWithBody(String url, String body) throws XMLRPCException {
-
+		
 		postMethod.setURI(URI.create(url));
 
 		try {
 			// set POST body
 			HttpEntity entity = new StringEntity(body);
 			postMethod.setEntity(entity);
-
+			    
 			//Log.d(Tag.LOG, "ros HTTP POST");
 			// execute HTTP POST request
 			HttpResponse response = client.execute(postMethod);
@@ -119,7 +135,7 @@ public class XmlRpc extends org.xmlrpc.android.XMLRPCClient {
 			throw new XMLRPCException(e);
 		}
 	}
-	
+    
 	public void addHeader(String header, String value) {
 		postMethod.addHeader(header, value);
 	}
